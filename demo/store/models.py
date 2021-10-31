@@ -2,6 +2,7 @@
 from django.utils import timezone
 from django.db import models
 
+
 class Product(models.Model):
     DISCOUNT_RATE = 0.10
 
