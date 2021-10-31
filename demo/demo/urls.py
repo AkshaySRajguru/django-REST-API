@@ -5,10 +5,11 @@ from django.urls import path
 
 import store.views
 
-from store.api_views import ProductList
+from store.api_views import ProductList, ProductCreate
 
 urlpatterns = [
     path('api/v1/products/', ProductList.as_view()),
+    path('api/v1/products/new', ProductCreate.as_view()),
 
     path('admin/', admin.site.urls),
     path('products/<int:id>/', store.views.show, name='show-product'),

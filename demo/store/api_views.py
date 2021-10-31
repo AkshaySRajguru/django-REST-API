@@ -1,6 +1,7 @@
+from rest_framework.exceptions import ValidationError
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 
 from store.serializers import ProductSerializer
@@ -47,3 +48,20 @@ class ProductList(ListAPIView):
             return queryset.filter(
                 sale_end=None
             )
+
+
+class ProductCreate(CreateAPIView):
+    """
+    test with curl command:
+    curl -X POST http://127.0.0.1:8000/api/v1/products/new -d price=1.00 -d name="newProduct" -d description="Hello world"
+    """
+    serializer_class = ProductSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            price = request.data.get('price')
+            if price is not None and float(price) <= 0.0:
+                raise ValidationError({'price': 'Must be above $0.00'})
+        except ValueError:
+            raise ValidationError({'price': 'A valid number is required'})
+        return super().create(request, *args, **kwargs)
