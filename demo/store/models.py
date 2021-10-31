@@ -34,6 +34,7 @@ class Product(models.Model):
     def __repr__(self):
         return '<Product object ({}) "{}">'.format(self.id, self.name)
 
+
 class ShoppingCart(models.Model):
     TAX_RATE = 0.13
   
@@ -57,6 +58,7 @@ class ShoppingCart(models.Model):
         name = self.name or '[Guest]'
         address = self.address or '[No Address]'
         return '<ShoppingCart object ({}) "{}" "{}">'.format(self.id, name, address)
+
 
 class ShoppingCartItem(models.Model):
     shopping_cart = models.ForeignKey(ShoppingCart, related_name='items', related_query_name='item', on_delete=models.CASCADE)
